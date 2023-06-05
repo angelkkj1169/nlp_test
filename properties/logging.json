@@ -1,0 +1,50 @@
+{
+    "version" : 1,
+    "disable_existing_loggers" : false,
+
+    "formatters" : {
+        "svc_format" : {
+            "format": "%(asctime)s %(levelname)s (%(filename)s:%(lineno)d) - %(message)s"
+        }
+    },
+
+    "handlers" : {
+        "console" : {
+            "class": "logging.StreamHandler",
+            "level": "ERROR",
+            "formatter": "svc_format",
+            "stream": "ext://sys.stdout"
+        },
+
+        "error_file_handler" : {
+            "class": "logging.handlers.TimedRotatingFileHandler",
+            "level": "ERROR",
+            "formatter": "svc_format",
+            "filename": "/logs/aiir/service/error/error.log",
+            "when": "midnight",
+            "interval": 1,
+            "backupCount": 100,
+            "encoding": "utf8",
+            "delay": true
+        }
+    },
+
+    "loggers" : {
+        "svc_logger" : {
+            "level": "INFO",
+            "handlers": ["error_file_handler"],
+            "propagate": "no"
+        },
+
+        "hang_logger" : {
+            "level": "INFO",
+            "handlers": ["error_file_handler"],
+            "propagate": "no"
+        }
+    },
+
+    "root" : {
+        "level": "ERROR",
+        "handlers": ["console"]
+    }
+}

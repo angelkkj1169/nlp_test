@@ -1,0 +1,92 @@
+syntax = "proto3";
+
+service NLPServer {
+    rpc getNlc(nlcReq) returns (nlcRes) {}
+    rpc getModelList(getModelReq) returns (getModelRes) {}
+    rpc reqSimulation(simulationReq) returns (simulationRes) {}
+    rpc getItn(itnReq) returns (itnRes) {}
+  }
+  
+  message nlcReq {
+    string searchType = 1;
+    string query = 2;
+    string trid = 3;
+    string domain = 4;
+    int32 topN = 5;
+    string sessionId = 6;
+    string talkId = 7;
+  }
+  
+  message nlcRes {
+    string resultCode = 1;
+    string domain = 2;
+    int32 topAnswer = 3;
+    float topScore = 4;
+    string intentName = 5;
+    repeated AnswerList answerList = 6;
+  }
+
+  message getModelReq {
+    string bucketName = 1;
+  }
+
+  message getModelRes {
+    string resultCode = 1;
+    string resultMessage = 2;
+    repeated ModelList modelList = 3;
+  }
+
+  message ModelList {
+    string domain = 1; 
+    string model = 2;     
+    string version = 3; 
+    string dataApplyDate = 4;
+    string path = 5;           
+    string uploadSubject = 6; 
+    string uploadDate = 7;    
+    string applyDate = 8;     
+  }
+
+  message simulationReq {
+    string searchType = 1;
+    string query = 2;
+    string trid = 3;
+    string domain = 4;
+    int32 topN = 5;
+  }
+  
+  message simulationRes {
+    string resultCode = 1;
+    string domain = 2;
+    string algorithm = 3;
+    int32 topAnswer = 4;
+    float topScore = 5; 
+    bool matched = 6;
+    float defaultScore = 7;
+    float multiIScore = 8;
+    string intentName = 9;
+    repeated AnswerList answerList = 10;
+  }
+
+  message AnswerList {
+    int32 answer = 1;
+    float score = 2;
+    string intent = 3;
+  }
+
+  message itnReq {
+    string searchType = 1;
+    string sttQuery = 2;
+    string trid = 3;
+    string domain = 4;
+    string sessionId = 5;
+    string talkId = 6;
+  }
+  
+  message itnRes {
+    string resultCode = 1;
+    string domain = 2;
+    string sttQuery = 3;
+    string normQuery = 4;
+    bool itnclsCode = 5;
+  }
